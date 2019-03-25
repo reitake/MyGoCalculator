@@ -51,6 +51,7 @@ LABEL1:
 	fmt.Println("┌---------【请选择管道材质】---------")
 	fmt.Println("│  输入 1 ：碳钢管")
 	fmt.Println("│  输入 2 ：碳钢管密度两倍的管子（测试用）")
+	fmt.Println("│  输入 3 ：自定义管材密度")
 	fmt.Println("│  输入 q ：退回到主界面")
 	fmt.Println("└---------------------------------")
 
@@ -67,6 +68,8 @@ LABEL1:
 		rou = CSrou
 	case "2":
 		rou = CSrou2
+	case "3":
+		setrou()
 	case "q", "Q":
 		return
 	default:
@@ -130,6 +133,24 @@ func RectPipeWeightCal() {
 		} else {
 			weight = AreaerI.Area() * rou * length
 			return
+		}
+	}
+}
+
+func setrou() {
+	for {
+		fmt.Println(" - 请输入自定义的管材密度(kg/m3)：")
+		input := bufio.NewReader(os.Stdin)
+		_, err := fmt.Fscan(input, &rou)
+		if err != nil {
+			fmt.Println("【出错】只能输入数字哦~！")
+		} else {
+			if rou <= 0 {
+				fmt.Println("【出错】密度要大于0哦w")
+			} else {
+				fmt.Printf(" - 已设定管道密度 = %v\n", rou)
+				return
+			}
 		}
 	}
 }
