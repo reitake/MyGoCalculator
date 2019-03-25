@@ -17,9 +17,10 @@ var err error
 
 func main() {
 	for {
-		fmt.Println("┌---------------------------------")
-		fmt.Println("│  输入 1 开始斐波那契数列计算")
-		fmt.Println("│  输入 q 退出")
+		fmt.Println("┌-----------【你想干嘛？】-----------")
+		fmt.Println("│  输入 1 ：开始斐波那契数列计算")
+		fmt.Println("│  输入 2 ：开始求管道重量")
+		fmt.Println("│  输入 q ：退出程序")
 		fmt.Println("└---------------------------------")
 
 		inputReader = bufio.NewReader(os.Stdin)
@@ -34,6 +35,9 @@ func main() {
 		case "1":
 			fmt.Println(" - 启动进行斐波那契数列计算...")
 			fib()
+		case "2":
+			fmt.Println(" - 启动进行管道重量计算...")
+			rtk_cal.GetPipeWeight()
 		case "q", "Q":
 			os.Exit(0)
 		default:
@@ -53,13 +57,13 @@ func fib() {
 
 	timeout := make(chan bool, 1)
 	ch := make(chan uint64, 1)
-	if num, err := strconv.Atoi(input); err != nil {
+	if num, err := strconv.Atoi(input); err != nil || num <= 0 {
 		fmt.Printf("【出错】你输入的好像不是一个合法数字。\n")
 		fib()
 		return
 	} else {
 		go func() {
-			time.Sleep(1e9 * 3)
+			time.Sleep(1e9 * 5)
 			timeout <- true
 		}()
 		go rtk_cal.Getfibonacci(num, ch)
