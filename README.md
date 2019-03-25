@@ -8,3 +8,24 @@
     * 待优化：让map存下计算数列时每一项的值，比如第一次计算了f(99)，那下次求99项之前的项都能立刻调出上次计算的结果（虽然现在感觉已经比较快了）。另外，求99项之后的可以从99项开始算？
   * 写了个算管重的功能：
     * 用接口写了求圆管、方管的面积
+    * 待优化：在给用户自定义密度时，如何更好地判断用户输入的值是数字且大于0？
+    * 目前实现方法如下：（不能用fmt.Scan，不然用户输入非期望的内容时，可能出错）
+```go
+func setrou() {
+	for {
+		fmt.Println(" - 请输入自定义的管材密度(kg/m3)：")
+		input := bufio.NewReader(os.Stdin)
+		_, err := fmt.Fscan(input, &rou)
+		if err != nil {
+			fmt.Println("【出错】只能输入数字哦~！")
+		} else {
+			if rou <= 0 {
+				fmt.Println("【出错】密度要大于0哦w")
+			} else {
+				fmt.Printf(" - 已设定管道密度 = %v\n", rou)
+				return
+			}
+		}
+	}
+}
+```
